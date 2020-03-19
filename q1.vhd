@@ -11,7 +11,8 @@ end entity Seq_Counter;
 
 architecture behaviour of Seq_Counter is
 type mode_01_array is array (8 downto 0) of integer;
-signal mode_01_data : mode_01_array := (3, -2, 8, 15, -1, 7, -14, 10, 1)
+signal mode_01_data : mode_01_array := (3, -2, 8, 15, -1, 7, -14, 10, 1);
+signal result: std_logic_vector(5 downto 0);
 begin
         process (Clk, Reset, Enable)
         variable v_Q: integer;
@@ -25,9 +26,10 @@ begin
                                         count := 0;
                               elsif (Mode = "10") then
                                         v_Q := 0;
-                              else (Mode = "11") then
+                              else
                                         v_Q := 1;
                               end if;
+                              result <= std_logic_vector(to_signed(v_Q, result'length));
                         elsif (rising_edge(Clk)) then
                                 if ((Enable = '1') and (Reset = '0')) then
                                        if(Mode = "00") then
@@ -53,8 +55,9 @@ begin
                                        else         
                                            v_Q := 1;
                                        end if;
+                                       result <= std_logic_vector(to_signed(v_Q, result'length));
                                end if;
-                               Q <= v_Q;
+                               Q <= result;
                   end if;
-        end process;
+end process;
 end architecture behaviour;                                     
