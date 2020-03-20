@@ -3,18 +3,17 @@ use IEEE.std_logic_1164.all;
 use IEEE.std_logic_unsigned.all;
 use IEEE.numeric_std.all;
 
-entity Seq_Counter is
+entity counter is
         port(Clk, Reset, Enable: in std_logic;
              Mode: in std_logic_vector(1 downto 0);
              Q: out std_logic_vector (5 downto 0));
-end entity Seq_Counter;
+end entity counter;
 
-architecture behaviour of Seq_Counter is
+architecture behaviour of counter is
 type mode_01_array is array (8 downto 0) of integer;
 signal mode_01_data : mode_01_array := (3, -2, 8, 15, -1, 7, -14, 10, 1);
-signal result: std_logic_vector(5 downto 0);
 begin
-        process (Clk, Reset, Enable)
+        process (Clk, Reset, Enable, Mode)
         variable v_Q: integer;
         variable count: integer;
                 begin
@@ -23,13 +22,23 @@ begin
                                         v_Q := 27;
                               elsif (Mode = "01") then
                                         v_Q := 3;
-                                        count := 0;
+                                        count := 1;
                               elsif (Mode = "10") then
                                         v_Q := 0;
                               else
-                                        v_Q := 1;
+                                        v_Q := 63;
                               end if;
-                              result <= std_logic_vector(to_signed(v_Q, result'length));
+                        elsif((Mode'event) and (Reset = '0')) then
+                              if (Mode = "00") then
+                                        v_Q := 27;
+                              elsif (Mode = "01") then
+                                        v_Q := 3;
+                                        count := 1;
+                              elsif (Mode = "10") then
+                                        v_Q := 0;
+                              else
+                                        v_Q := 63;
+                              end if;
                         elsif (rising_edge(Clk)) then
                                 if ((Enable = '1') and (Reset = '0')) then
                                        if(Mode = "00") then
@@ -53,11 +62,10 @@ begin
                                               v_Q := 0;
                                            end if;     
                                        else         
-                                           v_Q := 1;
+                                           v_Q := 63;
                                        end if;
-                                       result <= std_logic_vector(to_signed(v_Q, result'length));
-                               end if;
-                               Q <= result;
+                               end if; 
+                               Q <= std_logic_vector(to_signed(v_Q, Q'length));
                   end if;
 end process;
 end architecture behaviour;                                     

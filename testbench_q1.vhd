@@ -12,7 +12,8 @@ architecture test of test_counter is
   signal t_Mode: std_logic_vector(1 downto 0);
   
 component counter is
-  port(Clk, Reset, Enable : in std_logic;
+  port(
+       Clk, Reset, Enable : in std_logic;
        Mode : in std_logic_vector(1 downto 0);
        Q : out std_logic_vector(5 downto 0));
 end component counter;
@@ -23,9 +24,9 @@ begin
       
 init: process
 begin
- t_Reset <= '0','1' after 12 ns,'0' after 25 ns;
- t_Enable <= '1', '0' after 360 ns, '1' after 460 ns;
- t_Mode <= "00","01" after 30 ns, "10" after 45 ns,"11" after 80 ns;
+ t_Reset <= '0', '1' after 30 ns, '0' after 60 ns;
+ t_Enable <= '0', '1' after 45 ns;
+ t_Mode <= "00","01" after 60 ns, "10" after 260 ns,"11" after 180 ns;
  wait;
 end process init;
 
