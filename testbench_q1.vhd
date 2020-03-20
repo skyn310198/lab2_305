@@ -25,8 +25,8 @@ begin
 init: process
 begin
  t_Reset <= '0', '1' after 30 ns, '0' after 60 ns;
- t_Enable <= '0', '1' after 45 ns;
- t_Mode <= "00","01" after 60 ns, "10" after 260 ns,"11" after 180 ns;
+ t_Enable <= '0', '1' after 100 ns, '0' after 200 ns, '1' after 300 ns, '0' after 400 ns, '1' after 500 ns, '0' after 600 ns;
+ t_Mode <= "00","01" after 200 ns, "10" after 400 ns,"11" after 600 ns;
  wait;
 end process init;
 

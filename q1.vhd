@@ -10,7 +10,7 @@ entity counter is
 end entity counter;
 
 architecture behaviour of counter is
-type mode_01_array is array (8 downto 0) of integer;
+type mode_01_array is array (0 to 8) of integer;
 signal mode_01_data : mode_01_array := (3, -2, 8, 15, -1, 7, -14, 10, 1);
 begin
         process (Clk, Reset, Enable, Mode)
@@ -28,7 +28,7 @@ begin
                               else
                                         v_Q := 63;
                               end if;
-                        elsif((Mode'event) and (Reset = '0')) then
+                        elsif(Mode'event) then
                               if (Mode = "00") then
                                         v_Q := 27;
                               elsif (Mode = "01") then
@@ -65,7 +65,7 @@ begin
                                            v_Q := 63;
                                        end if;
                                end if; 
-                               Q <= std_logic_vector(to_signed(v_Q, Q'length));
                   end if;
+Q <= std_logic_vector(to_signed(v_Q, Q'length));
 end process;
 end architecture behaviour;                                     
