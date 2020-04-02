@@ -3,19 +3,17 @@ use IEEE.std_logic_1164.all;
 use IEEE.std_logic_unsigned.all;
 use IEEE.numeric_std.all;
 
-entity test_counter is
-end entity test_counter;
+entity test_counter_2 is
+end entity test_counter_2;
 
-architecture test of test_counter is
-  signal t_Clk, t_Enable, t_Direction : std_logic;
-  signal t_Init: std_logic_vector(3 downto 0);
+architecture test of test_counter_2 is
+  signal t_Clk, t_Enable, t_Direction, t_Init : std_logic;
   signal t_Q : std_logic_vector(3 downto 0);
   
   
 component BCD_counter is
   port(
-       Clk, Enable, Direction : in std_logic;
-       Init : in std_logic_vector(3 downto 0);
+       Clk, Enable, Direction, Init : in std_logic;
        Q : out std_logic_vector(3 downto 0));
 end component BCD_counter;
 
@@ -25,9 +23,9 @@ begin
       
 init: process
 begin
- t_Direction <= '0','1' after 12 ns,'0' after 25 ns;
- t_Enable <= '1', '0' after 360 ns, '1' after 460 ns;
- t_Init <= "00","01" after 30 ns, "10" after 45 ns,"11" after 80 ns;
+ t_Direction <= '0','1' after 100 ns,'0' after 200 ns, '1' after 300 ns;
+ t_Enable <= '0', '1' after 100 ns, '0' after 200 ns, '1' after 300 ns, '0' after 400 ns, '1' after 500 ns, '0' after 600 ns;
+ t_Init <= '0','1' after 50 ns,'0' after 100 ns;
  wait;
 end process init;
 
